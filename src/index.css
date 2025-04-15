@@ -98,4 +98,24 @@
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* Custom scrollbar styles */
+  .max-h-40 {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f1f5f9;
+  }
+  
+  .max-h-40::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .max-h-40::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 8px;
+  }
+  
+  .max-h-40::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 8px;
+  }
 }

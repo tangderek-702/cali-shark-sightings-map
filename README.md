@@ -1,8 +1,27 @@
-# Welcome to your Lovable project
+# California Shark Incidents Map
+
+An interactive visualization of shark incidents along the California coast from 1950-2025, based on data from the California Department of Fish and Wildlife.
 
 ## Project info
 
 **URL**: https://lovable.dev/projects/be903aea-9d12-43b7-ad07-b25059b2e749
+
+## Features
+
+- Interactive map showing the location of each shark incident
+- Color-coded markers based on injury severity (none, minor, major, fatal)
+- Filters for year range, counties, injury types, species, and activities
+- Statistical summaries of incident data
+- Detailed information available in popup markers
+
+## Using the Map
+
+This application requires a free Mapbox access token to display the interactive map. You'll be prompted to enter your token when you first load the application.
+
+1. Visit [Mapbox](https://mapbox.com/) and create a free account
+2. Navigate to your account's Access Tokens section
+3. Create a new public token or use the default public token
+4. Enter this token when prompted in the app
 
 ## How can I edit this code?
 
