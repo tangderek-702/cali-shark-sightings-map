@@ -1,40 +1,9 @@
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { SharkIncident } from '@/types';
 import { processedSharkIncidents } from '@/utils/sharkData';
-
-// Create a MapboxAccessTokenInput component for temporary token input
-const MapboxAccessTokenInput = ({ onTokenSet }: { onTokenSet: (token: string) => void }) => {
-  const [token, setToken] = useState('');
-  
-  return (
-    <div className="fixed top-0 left-0 w-full h-full bg-black/70 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-        <h2 className="text-xl font-semibold mb-4">Mapbox Access Token Required</h2>
-        <p className="mb-4 text-gray-700">
-          To use this map, please enter your Mapbox public access token. 
-          You can find or create one at <a href="https://mapbox.com/" target="_blank" className="text-blue-600 hover:underline">mapbox.com</a>.
-        </p>
-        <input
-          type="text"
-          value={token}
-          onChange={(e) => setToken(e.target.value)}
-          placeholder="Enter your Mapbox public token"
-          className="w-full p-2 border border-gray-300 rounded mb-4"
-        />
-        <button 
-          onClick={() => onTokenSet(token)}
-          disabled={!token}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:bg-gray-400"
-        >
-          Set Token
-        </button>
-      </div>
-    </div>
-  );
-};
 
 // Define injury color mapping
 const injuryColors: Record<string, string> = {
@@ -52,8 +21,9 @@ const SharkMap: React.FC<SharkMapProps> = ({ incidents }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const mapMarkers = useRef<mapboxgl.Marker[]>([]);
-  const [mapboxToken, setMapboxToken] = useState('');
   
+  const MAPBOX_TOKEN = 'pk.eyJ1IjoidGFuZ2RlcmVrIiwiYSI6ImNtOWowNnU3cjA3eHgyaXB5eXNlYXA3YmkifQ.ghj0wIrJnSLBkdee7IuioQ';
+
   const clearMarkers = () => {
     if (mapMarkers.current) {
       mapMarkers.current.forEach(marker => marker.remove());
@@ -100,11 +70,11 @@ const SharkMap: React.FC<SharkMapProps> = ({ incidents }) => {
     });
   };
 
-  // Initialize map once token is provided
+  // Initialize map 
   useEffect(() => {
-    if (!mapboxToken || !mapContainer.current) return;
+    if (!mapContainer.current) return;
     
-    mapboxgl.accessToken = mapboxToken;
+    mapboxgl.accessToken = MAPBOX_TOKEN;
     
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
@@ -127,7 +97,7 @@ const SharkMap: React.FC<SharkMapProps> = ({ incidents }) => {
         map.current = null;
       }
     };
-  }, [mapboxToken]);
+  }, []);
   
   // Update markers when incidents change
   useEffect(() => {
@@ -135,10 +105,6 @@ const SharkMap: React.FC<SharkMapProps> = ({ incidents }) => {
       addMarkers();
     }
   }, [incidents]);
-  
-  if (!mapboxToken) {
-    return <MapboxAccessTokenInput onTokenSet={setMapboxToken} />;
-  }
   
   return (
     <div className="relative w-full h-[70vh] rounded-lg overflow-hidden">
